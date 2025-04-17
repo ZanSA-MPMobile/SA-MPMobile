@@ -1,6 +1,7 @@
 * Update: v1.0.3 *
 
 Launcher:
+- New UI
 - Added Changelog
 
 Game:
