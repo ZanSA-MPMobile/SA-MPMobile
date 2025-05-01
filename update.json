@@ -1,0 +1,14 @@
+{
+    "app_status": true,
+    "app_server_status": true,
+    
+    "beta_status": false,
+    "app_testers": [""],
+    
+    "game_version": "1.0.4",
+    "game_url": "https://zansampmobile.my.id/game/app-game-release.apk",
+        
+    "full_list_url": "https://content.unisamp-mobile.com/jmobile_cache/mobile/cache/full_list.json",
+    "lite_list_url": "https://content.unisamp-mobile.com/jmobile_cache/mobile/cache/lite_list.json",
+    "samp_list_url": "https://zansampmobile.my.id/data/samp_list.json"
+}
