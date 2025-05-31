@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zan SA-MP Mobile</title>
+    <meta name="theme-color" content="#0F0F0F">
+    <meta name="description" content="The best SA-MP Mobile client with enhanced features">
+    <link rel="shortcut icon" href="images/icon.png" type="image/png">
+    
+    <!-- CSS -->
+    <style>
+        :root {
+            --primary: #ec3c41;
+            --primary-hover: #ff5257;
+            --background: #0f0f0f;
+            --text: #ffffff;
+            --text-secondary: rgba(255, 255, 255, 0.7);
+            --card-bg: rgba(0, 0, 0, 0.6);
+            --border-radius: 12px;
+            --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html, body {
+            width: 100%;
+            min-height: 100vh;
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: var(--background) url(../images/bg.png) no-repeat center center fixed;
+            background-size: cover;
+            color: var(--text);
+            position: relative;
+            display: flex;
+            flex-direction: column;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(15, 15, 15, 0.85);
+            z-index: -1;
+        }
+
+        /* Header */
+        .header {
+            width: 100%;
+            padding: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: relative;
+            z-index: 10;
+            animation: fadeInDown 0.8s ease-out;
+        }
+
+        .header-brand {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+        }
+
+        .header-logo {
+            width: 40px;
+            height: 40px;
+            background: url(../images/logo.png) center/contain no-repeat;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));
+        }
+
+        .header-titles {
+            margin-left: 10px;
+        }
+
+        .header-title {
+            font-size: 18px;
+            font-weight: 700;
+            line-height: 1;
+            color: var(--text);
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .header-subtitle {
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--primary);
+            margin-top: 2px;
+        }
+
+        .header-version {
+            font-size: 12px;
+            padding: 6px 10px;
+            border-radius: 20px;
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            padding: 20px 15px;
+            position: relative;
+        }
+
+        .hero-section {
+            text-align: center;
+            margin-top: 20px;
+            animation: fadeInUp 0.8s ease-out 0.2s both;
+        }
+
+        .hero-image {
+            width: 200px;
+            height: 200px;
+            margin: 0 auto 20px;
+            background: url(../images/hero-mobile.png) center/contain no-repeat;
+            filter: drop-shadow(0 10px 20px rgba(236, 60, 65, 0.3));
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .hero-title {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 10px;
+            background: linear-gradient(to right, #fff, #ddd);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.2);
+        }
+
+        .hero-subtitle {
+            font-size: 14px;
+            color: var(--text-secondary);
+            margin-bottom: 30px;
+            line-height: 1.5;
+        }
+
+        /* Download Button */
+        .download-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            background: var(--primary);
+            color: #000;
+            border: none;
+            border-radius: 50px;
+            padding: 18px 25px;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: var(--transition);
+            text-decoration: none;
+            width: 100%;
+            max-width: 300px;
+            margin: 0 auto;
+            box-shadow: 0 10px 20px rgba(236, 60, 65, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .download-btn::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(
+                to bottom right,
+                rgba(255,255,255,0) 0%,
+                rgba(255,255,255,0) 45%,
+                rgba(255,255,255,0.3) 50%,
+                rgba(255,255,255,0) 55%,
+                rgba(255,255,255,0) 100%
+            );
+            transform: rotate(30deg);
+            transition: all 0.3s;
+        }
+
+        .download-btn:hover::after {
+            left: 100%;
+        }
+
+        .download-btn .icon {
+            width: 20px;
+            height: 20px;
+            background: url(../images/download.svg) center/contain no-repeat;
+        }
+
+        /* Features */
+        .features {
+            margin: 40px 0;
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 15px;
+        }
+
+        .feature-card {
+            background: var(--card-bg);
+            backdrop-filter: blur(10px);
+            border-radius: var(--border-radius);
+            padding: 20px;
+            border: 1px solid rgba(255,255,255,0.05);
+            transition: var(--transition);
+            animation: fadeIn 0.8s ease-out both;
+        }
+
+        .feature-card:nth-child(1) { animation-delay: 0.3s; }
+        .feature-card:nth-child(2) { animation-delay: 0.4s; }
+        .feature-card:nth-child(3) { animation-delay: 0.5s; }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+            border-color: rgba(236, 60, 65, 0.3);
+        }
+
+        .feature-icon {
+            width: 40px;
+            height: 40px;
+            margin-bottom: 10px;
+            background-size: contain;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+
+        .feature-card h3 {
+            font-size: 16px;
+            margin-bottom: 8px;
+            color: var(--text);
+        }
+
+        .feature-card p {
+            font-size: 13px;
+            color: var(--text-secondary);
+            line-height: 1.5;
+        }
+
+        /* Footer */
+        .footer {
+            padding: 30px 15px;
+            text-align: center;
+            position: relative;
+        }
+
+        .footer::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 20px;
+            right: 20px;
+            height: 1px;
+            background: rgba(255,255,255,0.1);
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .social-link {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.05);
+            backdrop-filter: blur(5px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: var(--transition);
+        }
+
+        .social-link:hover {
+            background: rgba(236, 60, 65, 0.2);
+            transform: translateY(-3px);
+        }
+
+        .social-icon {
+            width: 20px;
+            height: 20px;
+            background-size: contain;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+
+        .copyright {
+            font-size: 12px;
+            color: rgba(255,255,255,0.3);
+            margin-top: 15px;
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-15px); }
+            100% { transform: translateY(0px); }
+        }
+
+        /* Responsive Adjustments */
+        @media (min-width: 400px) {
+            .hero-title {
+                font-size: 32px;
+            }
+            
+            .hero-subtitle {
+                font-size: 16px;
+            }
+            
+            .download-btn {
+                font-size: 18px;
+                padding: 20px 30px;
+            }
+        }
+
+        @media (min-width: 500px) {
+            .features {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (min-width: 768px) {
+            .header {
+                padding: 20px 25px;
+            }
+            
+            .main-content {
+                padding: 30px 25px;
+            }
+            
+            .hero-title {
+                font-size: 36px;
+            }
+            
+            .hero-image {
+                width: 250px;
+                height: 250px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header class="header">
+        <a href="/" class="header-brand">
+            <div class="header-logo"></div>
+            <div class="header-titles">
+                <div class="header-title">Zan SA-MP</div>
+                <div class="header-subtitle">MOBILE</div>
+            </div>
+        </a>
+        
+        <div class="header-version" id="version-display">v1.0.4</div>
+    </header>
+
+    <main class="main-content">
+        <section class="hero-section">
+            <div class="hero-image"></div>
+            <h1 class="hero-title">Best SA-MP Mobile Client</h1>
+            <p class="hero-subtitle">Experience smooth gameplay with performance optimized for mobile devices</p>
+            
+            <a href="https://zansampmobile.my.id/game/app-game-release.apk" class="download-btn">
+                <span class="icon"></span>
+                <span>Download Now</span>
+            </a>
+        </section>
+
+        <section class="features">
+            <div class="feature-card">
+                <div class="feature-icon" style="background-image: url(../images/performance.svg)"></div>
+                <h3>Optimized Performance</h3>
+                <p>Enhanced FPS and reduced lag for smoother gameplay even on low-end devices</p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon" style="background-image: url(../images/custom.svg)"></div>
+                <h3>Custom Mods</h3>
+                <p>Explore special mods and plugins planned to enhance your gameplay experience</p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon" style="background-image: url(../images/servers.svg)"></div>
+                <h3>Server Browser</h3>
+                <p>Easy access to thousands of SA-MP servers with favorites and history</p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon" style="background-image: url(../images/community.svg)"></div>
+                <h3>Community</h3>
+                <p>Join the community, connect with other players, and find friends to play with</p>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="social-links">
+            <a href="https://www.youtube.com/@KucimonGaming" class="social-link" target="_blank" rel="noopener">
+                <div class="social-icon" style="background-image: url(../images/youtube.svg)"></div>
+            </a>
+            <a href="https://zansampmobile.my.id/discord/" class="social-link" target="_blank" rel="noopener">
+                <div class="social-icon" style="background-image: url(../images/discord.svg)"></div>
+            </a>
+            <a href="https://www.tiktok.com/@Kucimon_Gaming" class="social-link" target="_blank" rel="noopener">
+                <div class="social-icon" style="background-image: url(../images/tiktok.svg)"></div>
+            </a>
+        </div>
+        
+        <p class="copyright">&copy; <span id="current-year"></span> Zan SA-MP Mobile. All rights reserved.</p>
+    </footer>
+
+    <script>
+        document.getElementById('current-year').textContent = new Date().getFullYear();
+        
+        fetch('https://zansampmobile.my.id/update.json')
+            .then(response => response.json())
+            .then(data => {
+                const version = data.game_version || 'v1.0.3';
+                document.getElementById('version-display').textContent = version;
+            })
+            .catch(error => {
+                console.log('Using default version');
+            });
+        
+        const downloadBtn = document.querySelector('.download-btn');
+        if (downloadBtn) {
+            downloadBtn.addEventListener('click', function(e) {
+                this.style.transform = 'scale(0.95)';
+                setTimeout(() => {
+                    this.style.transform = '';
+                }, 200);
+                
+                gtag('event', 'download_click', {
+                    'event_category': 'engagement',
+                    'event_label': 'mobile_download'
+                });
+            });
+        }
+    </script>
+</body>
+</html>

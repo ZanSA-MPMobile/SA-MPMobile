@@ -1,0 +1,16 @@
+* Update: v1.0.3 *
+
+Launcher:
+- New UI
+- Added Changelog
+
+Game:
+- Fixed Crashes/Freezes
+
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯
+
+* Update: v1.0.2 *
+
+Game:
+- Bug Fixes
