@@ -1,4 +1,4 @@
-* Update: v1.0.3 *
+* Update: v1.0.4 *
 
 Launcher:
 - Can download data in apk
