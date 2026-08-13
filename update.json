@@ -6,6 +6,7 @@
     "app_testers": [""],
     
     "game_version": "1.0.0",
+    "version_code": "1",
     "game_url": "https://zansampmobile.my.id/game/app-game-release.apk",
         
     "full_list_url": "https://content.unisamp-mobile.com/jmobile_cache/mobile/cache/full_list.json",
