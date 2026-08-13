@@ -92,6 +92,13 @@
             "gpu": "all"
         },
         {
+            "name": "vehicleAudioSettings.cfg",
+            "size": "56871",
+            "path": "SAMP/vehicleAudioSettings.cfg",
+            "url": "https://zansampmobile.my.id/data/samp_data/SAMP/vehicleAudioSettings.cfg",
+            "gpu": "all"
+        },
+        {
             "name": "SAMPCOL.img",
             "size": "4253696",
             "path": "texdb/SAMPCOL.img",
