@@ -436,7 +436,7 @@
             </div>
         </a>
 
-        <div class="header-version" id="version-display">v1.0.4</div>
+        <div class="header-version" id="version-display">v1.0.0</div>
     </header>
 
     <main class="main-content">
@@ -506,7 +506,7 @@
         fetch('https://zansampmobile.my.id/update.json')
             .then(response => response.json())
             .then(data => {
-                const version = data.game_version || 'v1.0.3';
+                const version = data.game_version || 'v1.0.0';
                 document.getElementById('version-display').textContent = version;
             })
             .catch(error => {
