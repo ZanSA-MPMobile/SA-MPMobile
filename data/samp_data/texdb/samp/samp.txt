@@ -11,7 +11,6 @@ cat=0 name=Default onfoot=0 slow=0 fast=0 defaultstream=0
 "lvpd1a_st2g" camnorm=1 alphamode=2 height=256 width=128 img=289fd1c9
 "sfpd1" camnorm=1 alphamode=2 height=256 width=128 img=b61ccd14
 "wfyclpd" camnorm=1 alphamode=2 height=256 width=128 img=8db07688
-"mylogo" camnorm=1 alphamode=2 height=256 width=1024 img=633225a8 mipmode=0
 "metalic128" camnorm=1 alphamode=2 height=128 width=128 img=823ad854
 "711_walltemp" camnorm=1 alphamode=2 height=256 width=256 img=8bda3c4b
 "a51_map" camnorm=1 alphamode=2 height=256 width=256 img=1dcce02e
@@ -1527,7 +1526,6 @@ cat=0 name=Default onfoot=0 slow=0 fast=0 defaultstream=0
 "Foil5-128x128" "affiliate=foil5-128x128"
 "Foil1-128x128" "affiliate=foil1-128x128"
 "GoldPlated1" "affiliate=goldplated1"
-"afk_icon" camnorm=1 alphamode=2 height=64 width=64 img=00213116
 "menu_mainmp" camnorm=1 alphamode=2 height=64 width=64 img=d3b23cb2
 "sign" "affiliate=MaterialText1"
 "KEY_ALT_0" camnorm=1 alphamode=2 height=256 width=256 img=c98c5b85 png=47b6ed6f
@@ -1537,8 +1535,11 @@ cat=0 name=Default onfoot=0 slow=0 fast=0 defaultstream=0
 "KEY_Y_1" camnorm=1 alphamode=2 height=256 width=256 img=42251a45 png=ffe65067
 "KEY_N_1" camnorm=1 alphamode=2 height=256 width=256 img=2c6930f8 png=e0e9bfc5
 "gtexture" width=256 height=256 img=a58eba7f camnorm=1 alphamode=2
-"voicepassive" width=256 height=256 img=60b7280 alphamode=2
-"voiceactive" width=256 height=256 img=92465a59 alphamode=2
-"voicemuted" width=256 height=256 img=ca03403b alphamode=2
-"speaker" width=64 height=64 img=d50677b4 alphamode=2
 "sa_logo" width=256 height=256 img=dd762754 alphamode=2
+"afk_icon" width=864 height=864 img=185656de mipmode=0 alphamode=2
+"mylogo" width=1428 height=804 img=478b9bb1 mipmode=0 alphamode=2
+"sampgui" width=512 height=512 img=e29a2745 mipmode=0 alphamode=2
+"speaker" width=256 height=256 img=3c8091b8 mipmode=0 alphamode=2
+"voiceactive" width=256 height=256 img=41a11477 mipmode=0 alphamode=2
+"voicemuted" width=256 height=256 img=78ee9933 mipmode=0 alphamode=2
+"voicepassive" width=256 height=256 img=6ceabecd mipmode=0 alphamode=2
