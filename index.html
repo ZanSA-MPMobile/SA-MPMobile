@@ -1,0 +1,877 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#05060a">
+  <meta name="description" content="Zan SA-MP Mobile — pengalaman multiplayer San Andreas yang cepat, stabil, dan dibuat untuk Android.">
+  <title>Zan SA-MP Mobile — Play Beyond Limits</title>
+  <style>
+    :root {
+      --bg: #05060a;
+      --bg-soft: #090b12;
+      --surface: rgba(13, 17, 28, .76);
+      --surface-solid: #0d111c;
+      --line: rgba(255, 255, 255, .10);
+      --line-strong: rgba(111, 246, 255, .30);
+      --text: #f5f8ff;
+      --muted: #98a3b8;
+      --cyan: #6ff6ff;
+      --cyan-2: #1bcde0;
+      --violet: #8b5cf6;
+      --green: #7dffb2;
+      --danger: #ff647f;
+      --glow: 0 0 32px rgba(83, 230, 255, .22);
+      --radius: 16px;
+      --max: 1160px;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      min-width: 320px;
+      background:
+        radial-gradient(circle at 78% -5%, rgba(139, 92, 246, .14), transparent 31rem),
+        radial-gradient(circle at 16% 12%, rgba(27, 205, 224, .12), transparent 30rem),
+        var(--bg);
+      color: var(--text);
+      font: 16px/1.6 Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      z-index: -3;
+      pointer-events: none;
+      background-image:
+        linear-gradient(rgba(111, 246, 255, .035) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(111, 246, 255, .035) 1px, transparent 1px);
+      background-size: 52px 52px;
+      mask-image: linear-gradient(to bottom, #000 0%, transparent 84%);
+    }
+
+    body::after {
+      content: "";
+      position: fixed;
+      inset: 0;
+      z-index: 20;
+      pointer-events: none;
+      opacity: .035;
+      background: repeating-linear-gradient(to bottom, transparent 0, transparent 3px, #fff 4px);
+      mix-blend-mode: overlay;
+    }
+
+    #fx {
+      position: fixed;
+      inset: 0;
+      z-index: -2;
+      width: 100%;
+      height: 100%;
+      opacity: .7;
+      pointer-events: none;
+    }
+
+    .cursor-glow {
+      position: fixed;
+      z-index: -1;
+      width: 420px;
+      height: 420px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(67, 219, 255, .09), transparent 67%);
+      transform: translate(-50%, -50%);
+      pointer-events: none;
+      transition: opacity .25s ease;
+    }
+
+    a { color: inherit; }
+    button, a { -webkit-tap-highlight-color: transparent; }
+    button { font: inherit; }
+    :focus-visible { outline: 2px solid var(--cyan); outline-offset: 4px; }
+    ::selection { color: #031014; background: var(--cyan); }
+
+    .container {
+      width: min(calc(100% - 48px), var(--max));
+      margin-inline: auto;
+    }
+
+    .site-header {
+      position: fixed;
+      inset: 0 0 auto;
+      z-index: 15;
+      height: 76px;
+      border-bottom: 1px solid transparent;
+      transition: background .3s ease, border-color .3s ease, backdrop-filter .3s ease;
+    }
+
+    .site-header.scrolled {
+      background: rgba(5, 6, 10, .78);
+      border-color: var(--line);
+      backdrop-filter: blur(18px);
+    }
+
+    .nav {
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+    }
+
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 11px;
+      min-height: 44px;
+      text-decoration: none;
+      font-weight: 850;
+      letter-spacing: -.02em;
+    }
+
+    .brand-mark {
+      position: relative;
+      display: grid;
+      place-items: center;
+      width: 38px;
+      height: 38px;
+      overflow: hidden;
+      border: 1px solid rgba(111, 246, 255, .42);
+      border-radius: 10px;
+      color: var(--cyan);
+      background: linear-gradient(145deg, rgba(111, 246, 255, .14), rgba(139, 92, 246, .11));
+      box-shadow: inset 0 0 18px rgba(111, 246, 255, .08), 0 0 18px rgba(111, 246, 255, .12);
+      font: 900 22px/1 Arial, sans-serif;
+    }
+
+    .brand-mark::after {
+      content: "";
+      position: absolute;
+      width: 60px;
+      height: 10px;
+      background: rgba(255,255,255,.48);
+      filter: blur(6px);
+      transform: rotate(-35deg) translateY(-36px);
+      animation: mark-shine 4.5s ease-in-out infinite;
+    }
+
+    .brand small {
+      display: block;
+      margin-top: -3px;
+      color: var(--muted);
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: .18em;
+    }
+
+    .nav-links { display: flex; align-items: center; gap: 28px; }
+    .nav-links a {
+      position: relative;
+      padding: 10px 0;
+      color: #b8c1d2;
+      font-size: 13px;
+      font-weight: 720;
+      text-decoration: none;
+      transition: color .2s ease;
+    }
+
+    .nav-links a:not(.nav-cta)::after {
+      content: "";
+      position: absolute;
+      inset: auto 0 3px;
+      height: 1px;
+      background: var(--cyan);
+      transform: scaleX(0);
+      transform-origin: right;
+      transition: transform .25s ease;
+      box-shadow: 0 0 8px var(--cyan);
+    }
+
+    .nav-links a:hover { color: #fff; }
+    .nav-links a:hover::after { transform: scaleX(1); transform-origin: left; }
+
+    .nav-cta, .btn {
+      display: inline-flex;
+      min-height: 46px;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      padding: 0 20px;
+      border: 1px solid rgba(111, 246, 255, .40);
+      border-radius: 10px;
+      background: linear-gradient(135deg, rgba(111, 246, 255, .16), rgba(139, 92, 246, .12));
+      box-shadow: inset 0 1px rgba(255,255,255,.09);
+      color: #fff !important;
+      font-weight: 800;
+      text-decoration: none;
+      transition: transform .25s ease, border-color .25s ease, box-shadow .25s ease, background .25s ease;
+    }
+
+    .nav-cta:hover, .btn:hover {
+      transform: translateY(-2px);
+      border-color: var(--cyan);
+      background: linear-gradient(135deg, rgba(111, 246, 255, .25), rgba(139, 92, 246, .18));
+      box-shadow: var(--glow), inset 0 1px rgba(255,255,255,.12);
+    }
+
+    .menu-btn {
+      display: none;
+      width: 44px;
+      height: 44px;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      background: var(--surface);
+      color: #fff;
+      cursor: pointer;
+    }
+
+    .hero {
+      position: relative;
+      min-height: 820px;
+      padding: 148px 0 72px;
+      display: grid;
+      align-items: center;
+    }
+
+    .hero::before {
+      content: "ZAN / SA-MP / MOBILE";
+      position: absolute;
+      top: 120px;
+      right: max(24px, calc((100vw - var(--max)) / 2));
+      color: rgba(255,255,255,.18);
+      font: 700 10px/1 ui-monospace, SFMono-Regular, Menlo, monospace;
+      letter-spacing: .22em;
+      writing-mode: vertical-rl;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.05fr) minmax(360px, .95fr);
+      gap: 70px;
+      align-items: center;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 24px;
+      color: var(--cyan);
+      font: 800 11px/1.2 ui-monospace, SFMono-Regular, Menlo, monospace;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+    }
+
+    .eyebrow::before {
+      content: "";
+      width: 28px;
+      height: 1px;
+      background: var(--cyan);
+      box-shadow: 0 0 9px var(--cyan);
+    }
+
+    h1, h2, h3, p { margin-top: 0; }
+    h1 {
+      max-width: 720px;
+      margin-bottom: 24px;
+      font-size: clamp(48px, 7vw, 86px);
+      line-height: .98;
+      letter-spacing: -.065em;
+    }
+
+    .gradient-text {
+      color: transparent;
+      background: linear-gradient(100deg, #fff 6%, var(--cyan) 43%, #af91ff 72%, #fff 94%);
+      background-size: 200% auto;
+      -webkit-background-clip: text;
+      background-clip: text;
+      animation: text-flow 7s linear infinite;
+    }
+
+    .hero-copy > p {
+      max-width: 610px;
+      margin-bottom: 32px;
+      color: var(--muted);
+      font-size: 17px;
+    }
+
+    .hero-actions { display: flex; flex-wrap: wrap; gap: 12px; }
+    .btn { min-height: 54px; padding-inline: 24px; }
+    .btn-primary {
+      border-color: transparent;
+      background: linear-gradient(135deg, var(--cyan), #66a8ff 55%, #956cff);
+      color: #061018 !important;
+      box-shadow: 0 14px 36px rgba(75, 206, 255, .18);
+    }
+
+    .btn-primary:hover {
+      border-color: transparent;
+      background: linear-gradient(135deg, #b8fbff, #7fb8ff 55%, #aa87ff);
+      box-shadow: 0 0 34px rgba(111, 246, 255, .30), 0 15px 35px rgba(84, 99, 255, .18);
+    }
+
+    .btn svg { width: 18px; height: 18px; }
+    .btn-ghost { border-color: var(--line); background: rgba(255,255,255,.025); }
+
+    .hero-note {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      margin-top: 19px;
+      color: #7f8ca3;
+      font: 700 11px/1.5 ui-monospace, SFMono-Regular, Menlo, monospace;
+      letter-spacing: .05em;
+    }
+
+    .status-dot {
+      width: 8px;
+      height: 8px;
+      flex: 0 0 auto;
+      border-radius: 50%;
+      background: var(--green);
+      box-shadow: 0 0 12px var(--green);
+      animation: pulse 2s ease-in-out infinite;
+    }
+
+    .visual-wrap { position: relative; min-height: 520px; display: grid; place-items: center; }
+    .orbit {
+      position: absolute;
+      width: min(39vw, 480px);
+      aspect-ratio: 1;
+      border: 1px solid rgba(111, 246, 255, .15);
+      border-radius: 50%;
+      animation: rotate 18s linear infinite;
+    }
+
+    .orbit::before, .orbit::after {
+      content: "";
+      position: absolute;
+      border-radius: 50%;
+      background: var(--cyan);
+      box-shadow: 0 0 18px var(--cyan);
+    }
+    .orbit::before { width: 7px; height: 7px; top: 13%; left: 14%; }
+    .orbit::after { width: 5px; height: 5px; right: 5%; bottom: 28%; background: #a78bfa; box-shadow: 0 0 18px #a78bfa; }
+    .orbit.two { width: min(31vw, 380px); animation-duration: 13s; animation-direction: reverse; border-style: dashed; opacity: .7; }
+
+    .device {
+      position: relative;
+      z-index: 2;
+      width: min(300px, 75vw);
+      aspect-ratio: .54;
+      padding: 10px;
+      border: 1px solid rgba(255,255,255,.18);
+      border-radius: 40px;
+      background: linear-gradient(145deg, #171d2b, #07090e 42%, #161827);
+      box-shadow: 0 35px 70px rgba(0,0,0,.55), 0 0 60px rgba(83, 230, 255, .13), inset 0 1px rgba(255,255,255,.15);
+      transform: rotate(4deg);
+      animation: device-float 6s ease-in-out infinite;
+    }
+
+    .device-screen {
+      position: relative;
+      height: 100%;
+      overflow: hidden;
+      border: 1px solid rgba(111, 246, 255, .19);
+      border-radius: 31px;
+      background:
+        linear-gradient(rgba(111,246,255,.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(111,246,255,.04) 1px, transparent 1px),
+        radial-gradient(circle at 50% 20%, rgba(139, 92, 246, .24), transparent 35%),
+        #070a11;
+      background-size: 26px 26px, 26px 26px, auto, auto;
+    }
+
+    .device-notch { width: 86px; height: 21px; margin: 8px auto; border-radius: 0 0 14px 14px; background: #05060a; }
+    .device-content { position: absolute; inset: 58px 22px 22px; display: flex; flex-direction: column; }
+    .mini-label { color: var(--cyan); font: 700 9px/1.3 ui-monospace, monospace; letter-spacing: .17em; }
+    .mini-title { margin: 9px 0 18px; font-size: 28px; line-height: 1.04; letter-spacing: -.055em; }
+    .mini-world {
+      position: relative;
+      min-height: 180px;
+      margin-bottom: 16px;
+      overflow: hidden;
+      border: 1px solid rgba(111, 246, 255, .16);
+      border-radius: 16px;
+      background:
+        linear-gradient(155deg, transparent 48%, rgba(111,246,255,.14) 49%, rgba(111,246,255,.02) 64%),
+        radial-gradient(circle at 73% 28%, #a78bfa 0 2px, transparent 3px),
+        linear-gradient(to bottom, #12182a, #071017);
+    }
+    .mini-world::before {
+      content: "Kucimon Gaming";
+      position: absolute;
+      left: 12px;
+      bottom: 11px;
+      color: rgba(255,255,255,.62);
+      font: 700 8px/1 ui-monospace, monospace;
+      letter-spacing: .12em;
+    }
+    .mini-world::after {
+      content: "";
+      position: absolute;
+      width: 180%;
+      height: 80px;
+      left: -35%;
+      bottom: -37px;
+      border-top: 1px solid rgba(111, 246, 255, .34);
+      border-radius: 50%;
+      box-shadow: 0 -10px 40px rgba(111,246,255,.08);
+    }
+    .mini-server { display: grid; grid-template-columns: 1fr auto; gap: 8px; padding: 10px 0; border-top: 1px solid rgba(255,255,255,.08); color: #dbe7f8; font-size: 10px; }
+    .mini-server span:last-child { color: var(--green); font-family: ui-monospace, monospace; }
+
+    .float-chip {
+      position: absolute;
+      z-index: 4;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 9px 12px;
+      border: 1px solid var(--line-strong);
+      border-radius: 10px;
+      background: rgba(8, 12, 20, .78);
+      backdrop-filter: blur(14px);
+      box-shadow: var(--glow);
+      color: #dce8f6;
+      font: 700 10px/1 ui-monospace, monospace;
+      letter-spacing: .08em;
+    }
+    .chip-one { top: 20%; left: -2%; animation: chip 5s ease-in-out infinite; }
+    .chip-two { right: -5%; bottom: 18%; animation: chip 5s ease-in-out 1.4s infinite; }
+
+    .ticker { border-block: 1px solid var(--line); background: rgba(255,255,255,.018); overflow: hidden; }
+    .ticker-track { display: flex; width: max-content; animation: marquee 24s linear infinite; }
+    .ticker-group { display: flex; align-items: center; }
+    .ticker-item { display: inline-flex; align-items: center; gap: 11px; padding: 15px 32px; color: #909caf; font: 750 11px/1 ui-monospace, monospace; letter-spacing: .13em; white-space: nowrap; }
+    .ticker-item b { color: var(--cyan); font-weight: 800; }
+
+    section { position: relative; }
+    .section { padding: 112px 0; }
+    .section-head { display: grid; grid-template-columns: .8fr 1.2fr; gap: 80px; align-items: end; margin-bottom: 48px; }
+    .kicker { margin-bottom: 14px; color: var(--cyan); font: 800 11px/1.2 ui-monospace, monospace; letter-spacing: .18em; text-transform: uppercase; }
+    h2 { margin-bottom: 0; font-size: clamp(36px, 5vw, 58px); line-height: 1.05; letter-spacing: -.055em; }
+    .section-head p { max-width: 620px; margin: 0; color: var(--muted); }
+
+    .stats-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+    .stat-card, .feature-card, .terminal, .cta-panel, details {
+      border: 1px solid var(--line);
+      background: linear-gradient(145deg, rgba(255,255,255,.036), rgba(255,255,255,.012));
+      box-shadow: inset 0 1px rgba(255,255,255,.025);
+    }
+    .stat-card { position: relative; min-height: 170px; padding: 24px; border-radius: var(--radius); overflow: hidden; }
+    .stat-card::after { content: ""; position: absolute; inset: auto -35px -55px auto; width: 120px; height: 120px; border: 1px solid rgba(111,246,255,.14); border-radius: 50%; }
+    .stat-label { color: var(--muted); font: 750 10px/1.2 ui-monospace, monospace; letter-spacing: .14em; }
+    .stat-value { margin: 21px 0 6px; font-size: clamp(30px, 4vw, 46px); font-weight: 850; line-height: 1; letter-spacing: -.05em; }
+    .stat-meta { color: #7f8ba0; font-size: 12px; }
+    .online { color: var(--green); }
+
+    .console-grid { display: grid; grid-template-columns: 1.05fr .95fr; gap: 18px; align-items: stretch; }
+    .terminal { min-height: 430px; border-color: rgba(111,246,255,.18); border-radius: var(--radius); overflow: hidden; box-shadow: 0 24px 70px rgba(0,0,0,.28), inset 0 0 60px rgba(111,246,255,.018); }
+    .terminal-bar { display: flex; align-items: center; justify-content: space-between; min-height: 48px; padding: 0 17px; border-bottom: 1px solid var(--line); background: rgba(255,255,255,.025); }
+    .terminal-dots { display: flex; gap: 7px; }
+    .terminal-dots i { width: 8px; height: 8px; border-radius: 50%; background: #344054; }
+    .terminal-dots i:nth-child(1) { background: var(--danger); }
+    .terminal-dots i:nth-child(2) { background: #ffd166; }
+    .terminal-dots i:nth-child(3) { background: var(--green); }
+    .terminal-title { color: #708097; font: 700 9px/1 ui-monospace, monospace; letter-spacing: .16em; }
+    .terminal-body { min-height: 378px; padding: 23px; color: #9bb0c7; font: 13px/1.9 ui-monospace, SFMono-Regular, Menlo, monospace; }
+    .terminal-line { min-height: 25px; }
+    .terminal-line .prompt { color: var(--cyan); }
+    .terminal-line.ok { color: var(--green); }
+    .terminal-cursor { display: inline-block; width: 8px; height: 15px; vertical-align: -2px; background: var(--cyan); box-shadow: 0 0 8px var(--cyan); animation: blink .9s steps(1) infinite; }
+
+    .protocol { display: grid; gap: 12px; }
+    .protocol-item { display: grid; grid-template-columns: 50px 1fr; gap: 18px; align-items: start; padding: 22px; border: 1px solid var(--line); border-radius: 14px; background: rgba(255,255,255,.018); transition: transform .25s ease, border-color .25s ease, background .25s ease; }
+    .protocol-item:hover { transform: translateX(5px); border-color: var(--line-strong); background: rgba(111,246,255,.035); }
+    .protocol-num { display: grid; place-items: center; width: 48px; height: 48px; border: 1px solid rgba(111,246,255,.22); border-radius: 12px; color: var(--cyan); background: rgba(111,246,255,.055); font: 800 12px/1 ui-monospace, monospace; }
+    .protocol-item h3 { margin-bottom: 6px; font-size: 16px; }
+    .protocol-item p { margin: 0; color: var(--muted); font-size: 13px; }
+
+    .features-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; }
+    .feature-card { position: relative; min-height: 260px; padding: 30px; border-radius: var(--radius); overflow: hidden; transition: transform .3s ease, border-color .3s ease, background .3s ease; }
+    .feature-card:hover { transform: translateY(-5px); border-color: rgba(111,246,255,.27); background: linear-gradient(145deg, rgba(111,246,255,.06), rgba(139,92,246,.025)); }
+    .feature-card::after { content: ""; position: absolute; width: 170px; height: 170px; right: -80px; bottom: -90px; border: 1px solid rgba(111,246,255,.10); border-radius: 50%; transition: transform .4s ease; }
+    .feature-card:hover::after { transform: scale(1.15); }
+    .feature-icon { display: grid; place-items: center; width: 48px; height: 48px; margin-bottom: 46px; border: 1px solid rgba(111,246,255,.22); border-radius: 12px; background: rgba(111,246,255,.05); color: var(--cyan); }
+    .feature-icon svg { width: 23px; height: 23px; }
+    .feature-card h3 { margin-bottom: 8px; font-size: 20px; }
+    .feature-card p { max-width: 450px; margin: 0; color: var(--muted); font-size: 14px; }
+
+    .cta-panel { position: relative; padding: 64px; border-color: rgba(111,246,255,.18); border-radius: 22px; overflow: hidden; }
+    .cta-panel::before { content: ""; position: absolute; inset: -100px -70px auto auto; width: 330px; height: 330px; border: 1px solid rgba(111,246,255,.16); border-radius: 50%; box-shadow: 0 0 90px rgba(83,230,255,.09), inset 0 0 70px rgba(139,92,246,.05); }
+    .cta-grid { position: relative; z-index: 1; display: grid; grid-template-columns: 1fr auto; gap: 48px; align-items: center; }
+    .cta-panel h2 { max-width: 720px; margin-bottom: 17px; }
+    .cta-panel p { max-width: 650px; margin-bottom: 0; color: var(--muted); }
+
+    .faq-list { display: grid; gap: 10px; max-width: 850px; margin: 0 auto; }
+    details { border-radius: 13px; overflow: hidden; }
+    summary { display: flex; justify-content: space-between; gap: 24px; align-items: center; min-height: 70px; padding: 17px 22px; cursor: pointer; font-weight: 760; list-style: none; }
+    summary::-webkit-details-marker { display: none; }
+    summary::after { content: "+"; color: var(--cyan); font: 400 24px/1 ui-monospace, monospace; }
+    details[open] summary::after { content: "−"; }
+    details p { margin: 0; padding: 0 22px 22px; color: var(--muted); font-size: 14px; }
+
+    footer { padding: 48px 0 32px; border-top: 1px solid var(--line); }
+    .footer-grid { display: flex; justify-content: space-between; gap: 30px; align-items: center; }
+    .footer-copy { color: #68748a; font-size: 12px; }
+    .footer-links { display: flex; flex-wrap: wrap; gap: 18px; }
+    .footer-links a { color: #8c98ac; font-size: 12px; text-decoration: none; }
+    .footer-links a:hover { color: var(--cyan); }
+
+    .reveal { opacity: 0; transform: translateY(24px); transition: opacity .7s ease, transform .7s cubic-bezier(.2,.7,.2,1); }
+    .reveal.visible { opacity: 1; transform: none; }
+
+    @keyframes text-flow { to { background-position: 200% center; } }
+    @keyframes rotate { to { transform: rotate(360deg); } }
+    @keyframes device-float { 0%,100% { transform: rotate(4deg) translateY(0); } 50% { transform: rotate(2deg) translateY(-14px); } }
+    @keyframes chip { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+    @keyframes pulse { 50% { opacity: .45; box-shadow: 0 0 4px var(--green); } }
+    @keyframes blink { 50% { opacity: 0; } }
+    @keyframes marquee { to { transform: translateX(-50%); } }
+    @keyframes mark-shine { 0%,65% { transform: rotate(-35deg) translateY(-36px); } 90%,100% { transform: rotate(-35deg) translateY(36px); } }
+
+    @media (max-width: 900px) {
+      .nav-links { position: fixed; inset: 76px 16px auto; display: none; padding: 18px; border: 1px solid var(--line); border-radius: 14px; background: rgba(7,9,14,.96); backdrop-filter: blur(18px); flex-direction: column; align-items: stretch; gap: 3px; box-shadow: 0 24px 60px rgba(0,0,0,.38); }
+      .nav-links.open { display: flex; }
+      .nav-links a { min-height: 44px; padding: 11px 13px; }
+      .menu-btn { display: grid; place-items: center; }
+      .hero { padding-top: 126px; }
+      .hero-grid { grid-template-columns: 1fr; gap: 35px; }
+      .hero-copy { text-align: center; }
+      .hero-copy > p { margin-inline: auto; }
+      .eyebrow { justify-content: center; }
+      .hero-actions { justify-content: center; }
+      .hero-note { justify-content: center; }
+      .visual-wrap { min-height: 500px; }
+      .orbit { width: min(74vw, 460px); }
+      .orbit.two { width: min(60vw, 370px); }
+      .chip-one { left: 10%; }
+      .chip-two { right: 8%; }
+      .section-head { grid-template-columns: 1fr; gap: 20px; }
+      .console-grid { grid-template-columns: 1fr; }
+      .cta-grid { grid-template-columns: 1fr; }
+      .cta-grid .btn { justify-self: start; }
+    }
+
+    @media (max-width: 640px) {
+      .container { width: min(calc(100% - 32px), var(--max)); }
+      .site-header { height: 68px; }
+      .nav-links { top: 68px; }
+      .hero { min-height: auto; padding: 116px 0 52px; }
+      .hero::before, .cursor-glow { display: none; }
+      h1 { font-size: clamp(45px, 15vw, 62px); }
+      .hero-copy > p { font-size: 15px; }
+      .hero-actions .btn { width: 100%; }
+      .visual-wrap { min-height: 430px; }
+      .device { width: 238px; border-radius: 33px; }
+      .device-screen { border-radius: 25px; }
+      .device-content { inset: 50px 18px 18px; }
+      .mini-title { font-size: 23px; }
+      .mini-world { min-height: 138px; }
+      .chip-one { left: 0; top: 19%; }
+      .chip-two { right: 0; bottom: 15%; }
+      .section { padding: 82px 0; }
+      .stats-grid, .features-grid { grid-template-columns: 1fr; }
+      .stat-card { min-height: 145px; }
+      .feature-card { min-height: 230px; }
+      .feature-icon { margin-bottom: 32px; }
+      .terminal-body { padding: 18px; font-size: 11.5px; }
+      .protocol-item { grid-template-columns: 44px 1fr; padding: 18px; gap: 14px; }
+      .protocol-num { width: 42px; height: 42px; }
+      .cta-panel { padding: 34px 24px; }
+      .cta-grid .btn { width: 100%; }
+      .footer-grid { flex-direction: column; align-items: flex-start; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
+      .reveal { opacity: 1; transform: none; }
+      #fx { display: none; }
+    }
+  </style>
+</head>
+<body>
+  <canvas id="fx" aria-hidden="true"></canvas>
+  <div class="cursor-glow" aria-hidden="true"></div>
+
+  <header class="site-header" id="site-header">
+    <nav class="nav container" aria-label="Navigasi utama">
+      <a class="brand" href="#top" aria-label="Zan SA-MP Mobile, kembali ke atas">
+        <span class="brand-mark">
+        <img src="images/logo.png" alt="Logo Zan SA-MP Mobile">
+        </span>
+        <span>Zan SA-MP<small>MOBILE CLIENT</small></span>
+      </a>
+      <button class="menu-btn" type="button" aria-label="Buka menu" aria-expanded="false" aria-controls="nav-links">
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+      </button>
+      <div class="nav-links" id="nav-links">  
+        <a href="#fitur">Fitur</a>
+        <a href="#system">System</a>
+        <a href="#faq">FAQ</a>
+        <a href="https://zansampmobile.my.id/discord" target="_blank" rel="noopener">Discord</a>
+        <a class="nav-cta" href="#download">Download</a>
+      </div>
+    </nav>
+  </header>
+
+  <main id="top">
+    <section class="hero">
+      <div class="hero-grid container">
+        <div class="hero-copy reveal">
+          <div class="eyebrow">GTA SA Multiplayer Android</div>
+          <h1>Play beyond<br><span class="gradient-text">every limit.</span></h1>
+          <p>Rasakan dunia SA-MP langsung dari Android dengan client ringan, koneksi stabil, dan pengalaman bermain yang dibuat untuk perangkat mobile.</p>
+          <div class="hero-actions">
+            <a class="btn btn-primary download-link" href="https://zansampmobile.my.id/game/app-game-release.apk" download>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><path d="M12 3v12m0 0 5-5m-5 5-5-5M5 21h14"/></svg>
+              Download APK
+            </a>
+            <a class="btn btn-ghost" href="#system">Explore system</a>
+          </div>
+          <div class="hero-note"><span class="status-dot"></span><span id="hero-status">OFFICIAL BUILD · SERVER CHECKING</span></div>
+        </div>
+
+        <div class="visual-wrap reveal" aria-label="Pratinjau antarmuka Zan SA-MP Mobile">
+          <div class="orbit"></div>
+          <div class="orbit two"></div>
+          <div class="float-chip chip-one"><span class="status-dot"></span> LOW LATENCY</div>
+          <div class="float-chip chip-two">BUILD <span class="version-text">1.0.0</span></div>
+          <div class="device">
+            <div class="device-screen">
+              <div class="device-notch"></div>
+              <div class="device-content">
+                <div class="mini-label">Client SA-MP Android</div>
+                <div class="mini-title">Zan SA-MP Mobile<br>Client Like PC</div>
+                <div class="mini-world"></div>
+                <div class="mini-server"><span>Client status</span><span>ONLINE</span></div>
+                <div class="mini-server"><span>Platform</span><span>ANDROID</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="system">
+      <div class="container">
+        <div class="section-head reveal">
+          <div><div class="kicker">// Live build matrix</div><h2>Engineered for<br>mobile play.</h2></div>
+          <p>Setiap bagian dirancang agar instalasi jelas, koneksi cepat, dan permainan tetap nyaman—bahkan di perangkat dengan sumber daya terbatas.</p>
+        </div>
+        <div class="stats-grid reveal">
+          <article class="stat-card"><div class="stat-label">CURRENT BUILD</div><div class="stat-value version-text">1.0.0</div><div class="stat-meta">Latest public Android release</div></article>
+          <article class="stat-card"><div class="stat-label">APP SERVER</div><div class="stat-value online" id="server-value">CHECK</div><div class="stat-meta" id="server-meta">Connecting to status endpoint</div></article>
+          <article class="stat-card"><div class="stat-label">ACCESS</div><div class="stat-value">FREE</div><div class="stat-meta">Direct official APK download</div></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <div class="console-grid">
+          <div class="terminal reveal" aria-label="Animasi terminal status sistem">
+            <div class="terminal-bar"><div class="terminal-dots"><i></i><i></i><i></i></div><div class="terminal-title">ZAN_CORE // BOOT SEQUENCE</div></div>
+            <div class="terminal-body" id="terminal-output"><div class="terminal-line"><span class="prompt">$</span> initializing zan-mobile core...</div><span class="terminal-cursor"></span></div>
+          </div>
+          <div class="protocol reveal">
+            <article class="protocol-item"><div class="protocol-num">01</div><div><h3>Lightweight Core</h3><p>Arsitektur client berfokus pada waktu muat cepat dan penggunaan resource yang efisien.</p></div></article>
+            <article class="protocol-item"><div class="protocol-num">02</div><div><h3>Server Discovery</h3><p>Temukan dan akses server SA-MP langsung dari perangkat Android dengan alur sederhana.</p></div></article>
+            <article class="protocol-item"><div class="protocol-num">03</div><div><h3>Update Ready</h3><p>Versi dan tautan unduhan terbaru dibaca otomatis dari endpoint resmi website.</p></div></article>
+            <article class="protocol-item"><div class="protocol-num">04</div><div><h3>Community First</h3><p>Dibangun sebagai ruang bermain mobile untuk terhubung, bertemu, dan berpetualang bersama.</p></div></article>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="fitur">
+      <div class="container">
+        <div class="section-head reveal">
+          <div><div class="kicker">// Core architecture</div><h2>Everything you need.</div>
+        </div>
+        <div class="features-grid">
+          <article class="feature-card reveal"><div class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M4 14h4l2-4 4 8 2-4h4M5 4h14a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2Z"/></svg></div><h3>Optimized Performance</h3><p>Pengalaman bermain yang ringan dengan fokus pada FPS, stabilitas, dan responsivitas di layar mobile.</p></article>
+          <article class="feature-card reveal"><div class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M12 3 4 7v5c0 4.8 3.1 7.6 8 9 4.9-1.4 8-4.2 8-9V7l-8-4Z"/><path d="m9 12 2 2 4-4"/></svg></div><h3>Stable Experience</h3><p>Alur akses yang jelas dan status build real-time membantu pemain selalu menggunakan versi resmi terbaru.</p></article>
+          <article class="feature-card reveal"><div class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a15 15 0 0 1 0 18M12 3a15 15 0 0 0 0 18"/></svg></div><h3>Thousands of Worlds</h3><p>Akses komunitas dan server SA-MP dari mana saja—rumah, perjalanan, atau sesi bermain singkat.</p></article>
+          <article class="feature-card reveal"><div class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M8 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8Zm8 2a3 3 0 1 0 0-6 3 3 0 0 0 0 6ZM2 21v-2a5 5 0 0 1 5-5h2a5 5 0 0 1 5 5v2M15 16h2a5 5 0 0 1 5 5"/></svg></div><h3>Built for Community</h3><p>Terhubung dengan pemain lain, bagikan pengalaman, dan tumbuhkan komunitas SA-MP Mobile bersama.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="download">
+      <div class="container">
+        <div class="cta-panel reveal">
+          <div class="cta-grid">
+            <div><div class="kicker">// Ready to download?</div><h2>Zan SA-MP Mobile.</h2><p>Unduh build resmi Zan SA-MP Mobile dan mulai perjalanan multiplayer dari perangkat Android kamu.</p></div>
+            <a class="btn btn-primary download-link" href="https://zansampmobile.my.id/game/app-game-release.apk" download>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><path d="M12 3v12m0 0 5-5m-5 5-5-5M5 21h14"/></svg>
+              Get build <span class="version-text">1.0.0</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="faq">
+      <div class="container">
+        <div class="section-head reveal">
+          <div><div class="kicker">// Frequently asked</div><h2>Quick answers.</h2></div>
+          <p>Informasi singkat sebelum kamu mengunduh dan menjalankan Zan SA-MP Mobile.</p>
+        </div>
+        <div class="faq-list reveal">
+          <details><summary>Apakah Zan SA-MP Mobile gratis?</summary><p>Ya. Build publik dapat diunduh langsung melalui tombol Download APK di website ini.</p></details>
+          <details><summary>Di perangkat apa client ini berjalan?</summary><p>Zan SA-MP Mobile dibuat untuk perangkat Android. Pastikan perangkat memiliki ruang penyimpanan yang cukup sebelum memasang APK.</p></details>
+          <details><summary>Bagaimana cara mendapatkan versi terbaru?</summary><p>Website membaca versi dan tautan APK dari update.json. Tombol download akan otomatis mengarah ke build resmi terbaru.</p></details>
+          <details><summary>Bagaimana cara mendapatkan bantuan atau melaporkan bug?</summary><p>Bergabunglah dengan komunitas Discord kami — laporan bug dan permintaan bantuan ditangani di sana.</p></details>
+        </div>
+      </div>
+    </section>
+  </main>
+
+    <footer>
+      <div class="footer-grid container">
+        <div><a class="brand" href="#top"><span class="brand-mark"><img src="images/logo.png"></span><span>Zan SA-MP<small>MOBILE CLIENT</small></span></a><div class="footer-copy">© <span id="year"></span> Zan SA-MP Mobile. All rights reserved.</div></div>
+        <div class="footer-links"><a href="#fitur">Features</a><a href="#faq">FAQ</a><a href="https://youtube.com/@kucimongaming" target="_blank" rel="noopener">YouTube</a><a href="/discord/">Discord</a></div>
+      </div>
+    </footer> 
+
+  <script>
+    const $ = (selector, context = document) => context.querySelector(selector);
+    const $$ = (selector, context = document) => [...context.querySelectorAll(selector)];
+
+    $('#year').textContent = new Date().getFullYear();
+
+    const header = $('#site-header');
+    const setHeader = () => header.classList.toggle('scrolled', scrollY > 24);
+    setHeader();
+    addEventListener('scroll', setHeader, { passive: true });
+
+    const menuButton = $('.menu-btn');
+    const navLinks = $('#nav-links');
+    menuButton.addEventListener('click', () => {
+      const open = navLinks.classList.toggle('open');
+      menuButton.setAttribute('aria-expanded', String(open));
+      menuButton.setAttribute('aria-label', open ? 'Tutup menu' : 'Buka menu');
+    });
+    $$('#nav-links a').forEach(link => link.addEventListener('click', () => {
+      navLinks.classList.remove('open');
+      menuButton.setAttribute('aria-expanded', 'false');
+    }));
+
+    const revealObserver = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          revealObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: .12 });
+    $$('.reveal').forEach(el => revealObserver.observe(el));
+
+    const setBuildData = data => {
+      const version = data.game_version || '1.0.0';
+      $$('.version-text').forEach(el => el.textContent = version);
+      if (data.game_url) $$('.download-link').forEach(el => el.href = data.game_url);
+      const online = data.app_status !== false && data.app_server_status !== false;
+      $('#server-value').textContent = online ? 'ONLINE' : 'MAINT.';
+      $('#server-value').classList.toggle('online', online);
+      $('#server-meta').textContent = online ? 'Official services operational' : 'Maintenance in progress';
+      $('#hero-status').textContent = online ? 'OFFICIAL BUILD · SYSTEM ONLINE' : 'OFFICIAL BUILD · MAINTENANCE';
+    };
+
+    fetch('./update.json', { cache: 'no-store' })
+      .then(response => {
+        if (!response.ok) throw new Error('status unavailable');
+        return response.json();
+      })
+      .then(setBuildData)
+      .catch(() => {
+        $('#server-value').textContent = 'READY';
+        $('#server-value').classList.add('online');
+        $('#server-meta').textContent = 'Static preview mode';
+        $('#hero-status').textContent = 'OFFICIAL BUILD · DOWNLOAD READY';
+      });
+
+    const terminalLines = [
+      ['info', '[i] loading mobile renderer...'],
+      ['ok', '[+] renderer initialized'],
+      ['info', '[i] syncing public server directory...'],
+      ['ok', '[+] endpoint connection stable'],
+      ['info', '[i] verifying latest Android build...'],
+      ['ok', '[+] package ready for download'],
+      ['ok', '[+] ZAN NETWORK STATUS: ONLINE']
+    ];
+
+    const terminal = $('#terminal-output');
+    let terminalStarted = false;
+    const runTerminal = () => {
+      if (terminalStarted) return;
+      terminalStarted = true;
+      let index = 0;
+      const cursor = terminal.querySelector('.terminal-cursor');
+      const next = () => {
+        if (index >= terminalLines.length) return;
+        const [type, text] = terminalLines[index++];
+        const line = document.createElement('div');
+        line.className = 'terminal-line' + (type === 'ok' ? ' ok' : '');
+        line.textContent = text;
+        terminal.insertBefore(line, cursor);
+        setTimeout(next, 310 + Math.random() * 260);
+      };
+      setTimeout(next, 450);
+    };
+    const terminalObserver = new IntersectionObserver(entries => {
+      if (entries[0].isIntersecting) { runTerminal(); terminalObserver.disconnect(); }
+    }, { threshold: .35 });
+    terminalObserver.observe(terminal);
+
+    const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const glow = $('.cursor-glow');
+    if (!reducedMotion && matchMedia('(pointer:fine)').matches) {
+      addEventListener('pointermove', event => {
+        glow.style.left = event.clientX + 'px';
+        glow.style.top = event.clientY + 'px';
+      }, { passive: true });
+    }
+
+    if (!reducedMotion) {
+      const canvas = $('#fx');
+      const ctx = canvas.getContext('2d');
+      let particles = [];
+      const resize = () => {
+        const ratio = Math.min(devicePixelRatio || 1, 2);
+        canvas.width = innerWidth * ratio;
+        canvas.height = innerHeight * ratio;
+        canvas.style.width = innerWidth + 'px';
+        canvas.style.height = innerHeight + 'px';
+        ctx.setTransform(ratio, 0, 0, ratio, 0, 0);
+        particles = Array.from({ length: Math.min(78, Math.floor(innerWidth / 18)) }, () => ({
+          x: Math.random() * innerWidth,
+          y: Math.random() * innerHeight,
+          r: Math.random() * 1.2 + .25,
+          v: Math.random() * .18 + .05,
+          a: Math.random() * .4 + .12
+        }));
+      };
+      const draw = () => {
+        ctx.clearRect(0, 0, innerWidth, innerHeight);
+        particles.forEach(p => {
+          p.y -= p.v;
+          if (p.y < -3) { p.y = innerHeight + 3; p.x = Math.random() * innerWidth; }
+          ctx.beginPath();
+          ctx.fillStyle = `rgba(111,246,255,${p.a})`;
+          ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+          ctx.fill();
+        });
+        requestAnimationFrame(draw);
+      };
+      resize();
+      addEventListener('resize', resize, { passive: true });
+      draw();
+    }
+  </script>
+</body>
+</html>
