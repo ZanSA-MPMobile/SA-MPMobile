@@ -1,8 +1,15 @@
 {
     "files": [
         {
+            "name": "arial.ttf",
+            "size": "1036584",
+            "path": "fonts/arial.ttf",
+            "url": "https://zansampmobile.my.id/data/samp_data/fonts/arial.ttf",
+            "gpu": "all"
+        },
+        {
             "name": "arial_bold.ttf",
-            "size": "352224",
+            "size": "980756",
             "path": "fonts/arial_bold.ttf",
             "url": "https://zansampmobile.my.id/data/samp_data/fonts/arial_bold.ttf",
             "gpu": "all"
@@ -12,6 +19,20 @@
             "path": "fonts/gtaweap3.ttf",
             "size": "104004",
             "url": "https://zansampmobile.my.id/data/samp_data/fonts/gtaweap3.ttf",
+            "gpu": "all"
+        },
+        {
+            "name": "sampaux3.ttf",
+            "size": "11192",
+            "path": "fonts/sampaux3.ttf",
+            "url": "https://zansampmobile.my.id/data/samp_data/fonts/sampaux3.ttf",
+            "gpu": "all"
+        },
+        {
+            "name": "webdings.ttf",
+            "size": "120416",
+            "path": "fonts/webdings.ttf",
+            "url": "https://zansampmobile.my.id/data/samp_data/fonts/webdings.ttf",
             "gpu": "all"
         },
         {
@@ -142,35 +163,35 @@
         },
         {
             "name": "samp.etc.toc",
-            "size": "6176",
+            "size": "6180",
             "path": "texdb/samp/samp.etc.toc",
             "url": "https://zansampmobile.my.id/data/samp_data/texdb/samp/samp.etc.toc",
             "gpu": "all"
         },
         {
             "name": "samp.pvr.dat",
-            "size": "13894248",
+            "size": "23166160",
             "path": "texdb/samp/samp.pvr.dat",
             "url": "https://zansampmobile.my.id/data/samp_data/texdb/samp/samp.pvr.dat",
             "gpu": "all"
         },
         {
             "name": "samp.pvr.tmb",
-            "size": "21376",
+            "size": "22564",
             "path": "texdb/samp/samp.pvr.tmb",
             "url": "https://zansampmobile.my.id/data/samp_data/texdb/samp/samp.pvr.tmb",
             "gpu": "all"
         },
         {
             "name": "samp.pvr.toc",
-            "size": "6176",
+            "size": "6180",
             "path": "texdb/samp/samp.pvr.toc",
             "url": "https://zansampmobile.my.id/data/samp_data/texdb/samp/samp.pvr.toc",
             "gpu": "all"
         },
         {
             "name": "samp.txt",
-            "size": "89582",
+            "size": "89683",
             "path": "texdb/samp/samp.txt",
             "url": "https://zansampmobile.my.id/data/samp_data/texdb/samp/samp.txt",
             "gpu": "all"
