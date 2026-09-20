@@ -128,35 +128,35 @@
         },
         {
             "name": "samp.dxt.dat",
-            "size": "22144848",
+            "size": "31648212",
             "path": "texdb/samp/samp.dxt.dat",
             "url": "https://zansampmobile.my.id/data/samp_data/texdb/samp/samp.dxt.dat",
             "gpu": "all"
         },
         {
             "name": "samp.dxt.tmb",
-            "size": "21376",
+            "size": "22564",
             "path": "texdb/samp/samp.dxt.tmb",
             "url": "https://zansampmobile.my.id/data/samp_data/texdb/samp/samp.dxt.tmb",
             "gpu": "all"
         },
         {
             "name": "samp.dxt.toc",
-            "size": "6176",
+            "size": "6180",
             "path": "texdb/samp/samp.dxt.toc",
             "url": "https://zansampmobile.my.id/data/samp_data/texdb/samp/samp.dxt.toc",
             "gpu": "all"
         },
         {
             "name": "samp.etc.dat",
-            "size": "33279656",
+            "size": "42765760",
             "path": "texdb/samp/samp.etc.dat",
             "url": "https://zansampmobile.my.id/data/samp_data/texdb/samp/samp.etc.dat",
             "gpu": "all"
         },
         {
             "name": "samp.etc.tmb",
-            "size": "21376",
+            "size": "22564",
             "path": "texdb/samp/samp.etc.tmb",
             "url": "https://zansampmobile.my.id/data/samp_data/texdb/samp/samp.etc.tmb",
             "gpu": "all"
@@ -191,7 +191,7 @@
         },
         {
             "name": "samp.txt",
-            "size": "89683",
+            "size": "91228",
             "path": "texdb/samp/samp.txt",
             "url": "https://zansampmobile.my.id/data/samp_data/texdb/samp/samp.txt",
             "gpu": "all"
@@ -205,7 +205,7 @@
         },
         {
             "name": "samp.unc.tmb",
-            "size": "22528",
+            "size": "22948",
             "path": "texdb/samp/samp.unc.tmb",
             "url": "https://zansampmobile.my.id/data/samp_data/texdb/samp/samp.unc.tmb",
             "gpu": "all"
