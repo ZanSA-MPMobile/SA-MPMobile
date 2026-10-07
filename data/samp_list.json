@@ -64,6 +64,27 @@
             "gpu": "all"
         },
         {
+            "name": "mouse.png",
+            "size": "784",
+            "path": "SAMP/mouse.png",
+            "url": "https://zansampmobile.my.id/data/samp_data/SAMP/mouse.png",
+            "gpu": "all"
+        },
+        {
+            "name": "pause.png",
+            "size": "180894",
+            "path": "SAMP/pause.png",
+            "url": "https://zansampmobile.my.id/data/samp_data/SAMP/pause.png",
+            "gpu": "all"
+        },
+        {
+            "name": "sampgui.png",
+            "size": "14091",
+            "path": "SAMP/sampgui.png",
+            "url": "https://zansampmobile.my.id/data/samp_data/SAMP/sampgui.png",
+            "gpu": "all"
+        },
+        {
             "name": "peds.ide",
             "size": "36369",
             "path": "SAMP/peds.ide",
