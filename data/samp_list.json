@@ -15,20 +15,6 @@
             "gpu": "all"
         },
         {
-            "name": "gtaweap3.ttf",
-            "path": "fonts/gtaweap3.ttf",
-            "size": "104004",
-            "url": "https://zansampmobile.my.id/data/samp_data/fonts/gtaweap3.ttf",
-            "gpu": "all"
-        },
-        {
-            "name": "sampaux3.ttf",
-            "size": "11192",
-            "path": "fonts/sampaux3.ttf",
-            "url": "https://zansampmobile.my.id/data/samp_data/fonts/sampaux3.ttf",
-            "gpu": "all"
-        },
-        {
             "name": "webdings.ttf",
             "size": "120416",
             "path": "fonts/webdings.ttf",
