@@ -1,6 +1,6 @@
 {
-    "app_status": true,
-    "app_server_status": true,
+    "app_status": false,
+    "app_server_status": false,
     
     "beta_status": false,
     "app_testers": [""],
